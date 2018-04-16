@@ -18,11 +18,31 @@
      return str;
  }
 
+ var parseLink = function(str) {
+     var linkRegExp = /\[([^\[]+)\]\(([^\)]+)\)/;
+     var stra = [];
+     while ((stra = linkRegExp.exec(str)) !== null) {
+         str = str.replace(stra[0], '<a ' + 'href="' + stra[2] + '">' + stra[1] + '</a>');
+         }
+     return str;
+     }
+
+ var parseBold = function(str) {
+     var boldRegExp = /(\*\*)(.*?)\1/;
+     var stra = [];
+     while ((stra = boldRegExp.exec(str)) !== null) {
+         str = str.replace(stra[0], '<strong>' + stra[2] + '</strong>')
+     }
+     return str;
+     }
+
 var markdown = {
-  parse: function (str, strict) {
+  parse: function (str, strict) {str = parseLink(str)
     'use strict';
     str = parseHeadline(str);
     str = parseHorizontaleLine(str);
+    str = parseLink(str);
+    str = parseBold(str);
     return str;
   }
 };
